@@ -1,0 +1,29 @@
+.index {
+  flex-direction: column;
+  
+  width: 100%;
+  .scrollView {
+      height: 100px;
+  }
+}
+
+.center {
+    text-align: center;
+    align-self: center;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    &::before {
+        display: inline-block;
+        width: 10px;
+        height: 40px;
+        margin-right: 10px;
+        content: '';
+        background-color: rgb(0, 107, 139);
+    }
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    padding: 20px 10px;
+}
