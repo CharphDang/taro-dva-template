@@ -1,11 +1,21 @@
 import { useState } from "react";
-
+import { connect } from "react-redux";
 import { AtTabBar } from "taro-ui";
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import "./index.scss";
 
-function CustomTabBar() {
+const CustomTabBar = connect(
+  ({ menu }) => {
+    return { current: menu.current };
+  },
+  {
+    setCurrent: (payload) => ({
+      type: "menu/setCurrent",
+      payload,
+    }),
+  }
+)(function (props) {
   const [menu] = useState([
     {
       title: "待办事项",
@@ -36,10 +46,9 @@ function CustomTabBar() {
       pagePath: "pages/other/index",
     },
   ]);
-  const [current, setCurrent] = useState(0);
+  const { current, setCurrent } = props;
+  console.log(current, "current"); // Charph-log
   const handleClick = (e) => {
-    console.log(e, "eeeee");
-    setCurrent(e);
     Taro.switchTab({
       url: "/" + menu[e].pagePath,
       fail: () => {
@@ -47,13 +56,17 @@ function CustomTabBar() {
           url: "/" + menu[e].pagePath,
         });
       },
+      success: () => {
+        setCurrent({ current: e });
+      },
     });
   };
+  console.log(111); // Charph-log
   return (
     <View>
       <AtTabBar tabList={menu} onClick={handleClick} current={current} />
     </View>
   );
-}
+});
 
 export default CustomTabBar;
